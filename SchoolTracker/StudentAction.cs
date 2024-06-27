@@ -11,14 +11,7 @@ namespace SchoolTracker
     class StudentAction 
     {
         // voici les options initialisées des menus elèves et cours
-        Dictionary<string, int> optionsStudent = new Dictionary<string, int>
-        {
-            { "lister les elèves", 1 },
-            { "créer un nouveau elève", 2 },
-            { "consulter un elève existants", 3 },
-            { "ajouter une note et une appréciation pour un cours sur un élève existant", 4 },
-            { "revenir au menu principal", 5 }
-        };
+        
 
         private List<Student> _students { get; set; }
         private List<Course> _courses { get; set; }
@@ -27,14 +20,17 @@ namespace SchoolTracker
             _students = students;
             _courses = courses;
         }
-        public void ListStudents(List<Student> students) //penser peutetre à diviser les display de la recopilation de donnes
+
+        public List<Student> GetStudentsList() { return _students; }
+        public List<Course> GetCoursesList() { return _courses; }
+        public void ListStudents() //penser peutetre à diviser les display de la recopilation de donnes
         {
             Console.Clear();
             Console.WriteLine("----------------------------------------------------------------------");
             Console.WriteLine("");
             Console.WriteLine("Liste d'elèves");
             Console.WriteLine("");
-            foreach (Student student in students)
+            foreach (Student student in GetStudentsList())
             {
                 Console.WriteLine($"- Name:{student.GetStudentName()} Lastname:{student.GetStudentLastname()} Birthday:{student.GetBirthday()}");
             }
@@ -43,7 +39,7 @@ namespace SchoolTracker
             Console.ReadKey();
         }
 
-        public void CreateNewStudent(List<Student> students)
+        public void CreateNewStudent()
         {
             Console.Clear();
             Console.WriteLine("----------------------------------------------------------------------");
@@ -65,9 +61,9 @@ namespace SchoolTracker
                 isValidDate = DateOnly.TryParseExact(entry3, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateValue);
             }
             // verification si l'elève existe
-            Student StudentNameToAdd = students.FirstOrDefault(p => p.GetStudentName() == name);
-            Student StudentLastnameToAdd = students.FirstOrDefault(q => q.GetStudentLastname() == lastname);
-            Student StudentBirthdayToAdd = students.FirstOrDefault(s => s.GetBirthday() == dateValue);
+            Student StudentNameToAdd = GetStudentsList().FirstOrDefault(p => p.GetStudentName() == name);
+            Student StudentLastnameToAdd = GetStudentsList().FirstOrDefault(q => q.GetStudentLastname() == lastname);
+            Student StudentBirthdayToAdd = GetStudentsList().FirstOrDefault(s => s.GetBirthday() == dateValue);
             if ((StudentNameToAdd != null && StudentLastnameToAdd != null) && StudentBirthdayToAdd != null) //((StudentNameToAdd != null && StudentLastnameToAdd != null) && StudentBirthdayToAdd != null)
             {
                 Console.WriteLine("");
@@ -80,7 +76,7 @@ namespace SchoolTracker
             Console.WriteLine("Voici l'Id unique. Veillez le noter et garder precieusement:");
             Console.WriteLine(newStudent.GetStudentId());
 
-            students.Add(newStudent);
+            _students.Add(newStudent);
             
 
             Console.WriteLine("");
@@ -90,7 +86,7 @@ namespace SchoolTracker
 
         }
 
-        public void ConsultStudent(List<Student> students, List<Course> courses)
+        public void ConsultStudent()
         {
             Console.Clear();
             Console.WriteLine("----------------------------------------------------------------------");
@@ -99,14 +95,14 @@ namespace SchoolTracker
             string entryId = Console.ReadLine();
             int id = Convert.ToInt32(entryId);
 
-            bool isStudent = VerifiedStudent(students, id);
+            bool isStudent = VerifiedStudent(id);
             if (!(isStudent))
             {
                 Console.WriteLine("Le numero que vous venez de rentre ne figurez pas dans la liste d'elèves.");
             }
             else
             {
-                Student StudentToShow = students.FirstOrDefault(p => p.GetStudentId() == id);
+                Student StudentToShow = GetStudentsList().FirstOrDefault(p => p.GetStudentId() == id);
                 Console.WriteLine("");
                 Console.WriteLine("Information sur l'elève: ");
                 Console.WriteLine("");
@@ -114,7 +110,7 @@ namespace SchoolTracker
                 Console.WriteLine("");
                 Console.WriteLine("Prénom:" + StudentToShow.GetStudentName());
                 Console.WriteLine("");
-                Console.WriteLine("Date de naissance:" + StudentToShow.GetStudentName());
+                Console.WriteLine("Date de naissance:" + StudentToShow.GetBirthday());
                 Console.WriteLine("");
                 Console.WriteLine("Résultats scolaires:");
                 Console.WriteLine("");
@@ -122,7 +118,7 @@ namespace SchoolTracker
                 {
                     int coursId = grade.GetGradeCourseId();
                     //Course courseToShow = courses.FirstOrDefault(p => p.GetCourseId() == coursId);
-                    Console.WriteLine("Cours : " + grade.GetGradeCourse(courses, coursId)); // 'abord on cherche à trouver le Id du cours lié à la note, et puis on chercher le cours dans la liste de cours qui a le Id
+                    Console.WriteLine("Cours : " + grade.GetGradeCourse(GetCoursesList(), coursId)); // 'abord on cherche à trouver le Id du cours lié à la note, et puis on chercher le cours dans la liste de cours qui a le Id
                     Console.WriteLine("__Note: "+ grade.GetGradeNote()+"/20");
                     Console.WriteLine("__Appréciation : "+grade.GetGradeComment());
                     Console.WriteLine("");
@@ -136,9 +132,9 @@ namespace SchoolTracker
             }
         }
 
-        public bool VerifiedStudent(List<Student> students, int id) { return students.Exists(p => p.GetStudentId() == id); }
+        public bool VerifiedStudent(int id) { return GetStudentsList().Exists(p => p.GetStudentId() == id); }
 
-        public void AddGradeAndComment(List<Student> students, List<Course> courses)
+        public void AddGradeAndComment()
         {
             Console.Clear();
             Console.WriteLine("----------------------------------------------------------------------");
@@ -148,7 +144,7 @@ namespace SchoolTracker
             Console.WriteLine("Rentrer l'identifiant du elève: ");
             string studentIdEntry = Console.ReadLine();
             //icic pense à implementer les fontions de try imput
-            Student studentTosearch = students.FirstOrDefault(p => p.GetStudentId() == Convert.ToInt32(studentIdEntry));
+            Student studentTosearch = GetStudentsList().FirstOrDefault(p => p.GetStudentId() == Convert.ToInt32(studentIdEntry));
             Console.WriteLine("");
             Console.WriteLine("Rentrer le cours: ");
             string coursEntry = Console.ReadLine();
@@ -160,17 +156,17 @@ namespace SchoolTracker
             Console.WriteLine("Rentrer une appréciation (Facultatif): ");
             string comment = Console.ReadLine();
             Console.WriteLine("");
-            Console.WriteLine("Racpitulatif");
+            Console.WriteLine("Recapitulatif");
             Console.WriteLine("Elève: "+studentTosearch.GetStudentLastname()+" "+studentTosearch.GetStudentName);
             Console.WriteLine("Cours: "+coursEntry);
             Console.WriteLine("Note: "+ noteEntry+"/20");
             Console.WriteLine("Appréciation: "+comment);
 
-            Console.WriteLine("vous confirmer le registre? (Y/N): "); //chercher à utiliszer un format key(Y==answer)?? du type key(true)
+            Console.WriteLine("vous confirmer le registre? (Y/N): \n"); //chercher à utiliszer un format key(Y==answer)?? du type key(true)
             var answer =Console.ReadKey();
             if (answer.Key == ConsoleKey.Y)
             {
-                studentTosearch.AddGrade(courses, coursEntry, note, comment);
+                studentTosearch.AddGrade(GetCoursesList(), coursEntry, note, comment);
             }
             else if (answer.Key == ConsoleKey.N)
             {

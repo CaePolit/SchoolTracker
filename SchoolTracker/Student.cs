@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
@@ -73,15 +74,19 @@ namespace SchoolTracker
 
         public string CalculateStudentMean()
         {
-            double adition = 0;
-            foreach (Grade grade in _grades)
+            if (_grades.Count != 0 ) 
             {
-                double note = grade.GetGradeNote();
-                adition += note;
-            }
-             string promedio = CustomRoundWithSuffix(adition / _grades.Count);
-            
-            return promedio;
+                double adition = 0;
+                foreach (Grade grade in _grades)
+                {
+                    double note = grade.GetGradeNote();
+                    adition += note;
+                }
+                string promedio = CustomRoundWithSuffix(adition / _grades.Count);
+                return promedio;
+            } 
+            else { return "0/20"; }
+                                                
         }
 
         public static string CustomRoundWithSuffix(double number)
