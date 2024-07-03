@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,19 +11,21 @@ namespace SchoolTracker
 {
     class Grade
     {
+        [JsonProperty]
         private int _studentId {  get; }
+        [JsonProperty]
         private int _courseId { get; }
+        [JsonProperty]
         private double _note { get; set; }
+        [JsonProperty]
         private string _comment { get; set; }
 
         public Grade(int studentId, int courseId, double note, string comment = "")
         {
-            //_course = course;
             _studentId = studentId;
             _courseId = courseId;
             _note = note;
             _comment = comment;
-            //_student = GetStudentName();
         }
 
         public double GetGradeNote() { return _note; }

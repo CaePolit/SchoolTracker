@@ -20,6 +20,10 @@ namespace SchoolTracker
         }
         public List<Course> GetCoursesList() { return _courses; }
         public List<Student> GetStudentsList() { return _students; }
+        public int GetNumberOfStudents()
+            { return _students.Count; }
+        public int GetNumberOfCourses()
+            { return _courses.Count; }
 
         public void ListCourses() // penser peutetre à diviser les display de la recopilation de donnes
         {
@@ -44,6 +48,7 @@ namespace SchoolTracker
             if (courseToAdd == null)
             {
                 _courses.Add(new Course(name));
+                DataManager.Save(_students, _courses, GetNumberOfStudents(), GetNumberOfCourses());
                 return true;
             }
             else { return false; } //Console.WriteLine("Le cours " + name + " existe déjà");

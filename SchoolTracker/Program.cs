@@ -29,23 +29,17 @@ class Program
 
         //ici en dehors de la boucle on doit avoir acces au ficher JSON
         //pour charger nos donnes
-
+        string folderPath = @"C:\Users\Carlos\Desktop\WCS\projet_console\SchoolTracker";
+        string fileName = "data_file.json";
+        string fullPath = Path.Combine(folderPath, fileName);
+        //DataManager dataManager = new DataManager(fullPath);
         //ici on crée la liste d'elèves et de cours, plus tard on remplacera cette parrti pour une fonction
         //qui lise le dit fichier .JSON
+        List<Student> eleves = DataManager.LoadStudents();
+        List<Course> cours = DataManager.LoadCourses();
 
-        List<Course> cours = new List<Course>();
-        Course cours1 = new Course("Math");
-        Course cours2 = new Course("Histoire");
-        List<Student> eleves = new List<Student>();
-        int numberOfStudents = 0;
-        Student student1 = new Student("Juan", "Pachanga", "01/02/1995");
-        Student student2 = new Student("Pedro", "Navaja", "10/06/1998");
-
-        //on remplie les listes en téléchargent les données, d'abord on mettra 2 elèves et 2 cours à la main
-        cours.Add(cours1);
-        cours.Add(cours2);
-        eleves.Add(student1);
-        eleves.Add(student2);
+        
+                
         while (true) // boucle infini du programe main
         {
             // le menu principal doit etre à l'interieur d'une bouble infini, et les
@@ -56,14 +50,13 @@ class Program
                 //ici on va commencer à creer notre menu principal
                 DisplayPrincipalMenu();
                 var answerPrincipal = Console.ReadKey();
-                //string entry1 = Console.ReadLine().ToLower();
-                if (!(answerPrincipal.Key == ConsoleKey.E || answerPrincipal.Key == ConsoleKey.C))
+                
+                if (!(answerPrincipal.Key == ConsoleKey.NumPad1 || answerPrincipal.Key == ConsoleKey.NumPad2))
                 {
                     DisplayPrincipalMenuError();
-                    //Console.ReadLine();
-                    //entry1 = Console.ReadLine().ToLower();
+                    
                 }
-                while (answerPrincipal.Key == ConsoleKey.E) //pense à implementer un if
+                while (answerPrincipal.Key == ConsoleKey.NumPad1) 
                 {
                     DisplayStudentMenu();
                     StudentAction studentAction = new StudentAction(eleves, cours);
@@ -74,30 +67,29 @@ class Program
 
                     switch (answerStudent.Key)
                     {
-                        case ConsoleKey.L:
+                        case ConsoleKey.NumPad1:
                             studentAction.ListStudents();
                             break;
-                        case ConsoleKey.N:
+                        case ConsoleKey.NumPad2:
                             studentAction.CreateNewStudent();
                             break;
-                        case ConsoleKey.C:
+                        case ConsoleKey.NumPad3:
                             studentAction.ConsultStudent();
                             break;
-                        case ConsoleKey.A:
+                        case ConsoleKey.NumPad4:
                             studentAction.AddGradeAndComment();
                             break;
-                        case ConsoleKey.R:
+                        case ConsoleKey.NumPad5:
                             break;
                         default:
                             DisplayStudentMenuError();
-                            //Console.ReadLine();
+                            
                             break;
                     }
-                    if (answerStudent.Key == ConsoleKey.R) break;
-                    //Console.ReadLine();
-                    //answerPrincipal = ConsoleKey.R;
+                    if (answerStudent.Key == ConsoleKey.NumPad5) break;
+                    
                 }
-                while (answerPrincipal.Key == ConsoleKey.C)
+                while (answerPrincipal.Key == ConsoleKey.NumPad2)
                 {
                     DisplayCoursesMenu();
                     CourseAction courseAction = new CourseAction(eleves, cours);
@@ -107,23 +99,23 @@ class Program
                     // créer un sitch case avec les Key values du menu cours 
                     switch (answerCourse.Key)
                     {
-                        case ConsoleKey.L:
+                        case ConsoleKey.NumPad1:
                             courseAction.ListCourses();
                             break;
-                        case ConsoleKey.A:
+                        case ConsoleKey.NumPad2:
                             courseAction.AskAddCourse();
                             break;
-                        case ConsoleKey.S:
+                        case ConsoleKey.NumPad3:
                             courseAction.AskRemoveCourse();
                             break;
-                        case ConsoleKey.R:
+                        case ConsoleKey.NumPad4:
                             break;
                         default:
                             DisplayCoursesMenuError();
                             //Console.ReadLine();
                             break;
                     }
-                    if (answerCourse.Key == ConsoleKey.R) break;
+                    if (answerCourse.Key == ConsoleKey.NumPad4) break;
 
                 }
                 
@@ -140,12 +132,12 @@ class Program
         Console.WriteLine("");
         Console.WriteLine("Choisissez:");
         Console.WriteLine("");
-        Console.WriteLine("- Elèves");
+        Console.WriteLine("1) Elèves");
         Console.WriteLine("");
-        Console.WriteLine("- Cours");
+        Console.WriteLine("2) Cours");
         Console.WriteLine("");
         Console.WriteLine("");
-        Console.WriteLine("E/C?");
+        Console.WriteLine("1 ou 2?");
         Console.WriteLine("----------------------------------------------------------------------");
         Console.WriteLine("");
     }
@@ -158,7 +150,7 @@ class Program
             //
             Console.WriteLine("----------------------------------------------------------------------");
             Console.WriteLine("");
-            Console.WriteLine("Error de saisie! Veillez rentrer comme commenade de ligne, soit E, soit C");
+            Console.WriteLine("Error de saisie! Veillez rentrer comme commenade de ligne, soit 1, soit 2");
             Console.WriteLine("");
             Console.WriteLine("Tapez Enter pour continuer");
             Console.WriteLine("");
@@ -184,7 +176,7 @@ class Program
         Console.WriteLine("4) Ajouter une note et une appréciation pour un cours sur un élève existant");
         Console.WriteLine("5) Revenir au menu principal");
         Console.WriteLine("");
-        Console.WriteLine(" 'L', 'N', 'C', 'A' ou 'R'?");
+        Console.WriteLine(" tapez soit '1', '2', '3', '4' ou '5'");
         Console.WriteLine("");
         Console.WriteLine("----------------------------------------------------------------------");
         Console.WriteLine("");
@@ -197,7 +189,7 @@ class Program
         {
             Console.WriteLine("----------------------------------------------------------------------");
             Console.WriteLine("");
-            Console.WriteLine("Error de saisie! Veillez rentrer l'une des 5 actions listées");
+            Console.WriteLine("Error de saisie! Veillez rentrer soit '1', '2', '3', '4' ou '5'");
             Console.WriteLine("");
             Console.WriteLine("Tapez Enter pour continuer");
             Console.WriteLine("");
@@ -222,7 +214,7 @@ class Program
         Console.WriteLine("3) Supprimer un cours par son identifiant");
         Console.WriteLine("4) Revenir au menu principal");
         Console.WriteLine("");
-        Console.WriteLine(" 'L', 'A', 'S' ou 'R'?");
+        Console.WriteLine(" tapez soit '1', '2', '3' ou '4'");
         Console.WriteLine("----------------------------------------------------------------------");
         Console.WriteLine("");
     }
@@ -234,7 +226,7 @@ class Program
         {
             Console.WriteLine("----------------------------------------------------------------------");
             Console.WriteLine("");
-            Console.WriteLine("Error de saisie! Veillez rentrer l'une des 4 actions listées");
+            Console.WriteLine("Error de saisie! Veillez rentrer tapez soit '1', '2', '3' ou '4'");
             Console.WriteLine("");
             Console.WriteLine("Tapez Enter pour continuer");
             Console.WriteLine("");
