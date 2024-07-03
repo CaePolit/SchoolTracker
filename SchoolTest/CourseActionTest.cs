@@ -1,6 +1,7 @@
 namespace SchoolTest
 {
     using Xunit;
+    using SchoolTracker;
     public class CourseActionTest
     {
         private readonly CourseAction _courseAction;
