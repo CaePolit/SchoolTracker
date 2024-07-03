@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Xml.Linq;
 
 namespace SchoolTracker
 {
-    class CourseAction
+    internal class CourseAction
     {
         
         private List<Student> _students { get; set; }
@@ -20,6 +21,10 @@ namespace SchoolTracker
         }
         public List<Course> GetCoursesList() { return _courses; }
         public List<Student> GetStudentsList() { return _students; }
+        public int GetNumberOfStudents()
+            { return _students.Count; }
+        public int GetNumberOfCourses()
+            { return _courses.Count; }
 
         public void ListCourses() // penser peutetre à diviser les display de la recopilation de donnes
         {
@@ -44,6 +49,8 @@ namespace SchoolTracker
             if (courseToAdd == null)
             {
                 _courses.Add(new Course(name));
+                DataManager.Save(_students, _courses, GetNumberOfStudents(), GetNumberOfCourses());
+                Log.Information($"Ajout de nouveau cours: {name}");
                 return true;
             }
             else { return false; } //Console.WriteLine("Le cours " + name + " existe déjà");
@@ -78,6 +85,7 @@ namespace SchoolTracker
             if (courseToDelete != null)
             {
                 _courses.Remove(courseToDelete);
+                Log.Information($"Suppression du cours: {courseToDelete}");
                 foreach (Student student in GetStudentsList())
                 {
                     //int len = student.GetStudentGrades().Count();
@@ -88,15 +96,8 @@ namespace SchoolTracker
                         student.GetStudentGrades().Remove(gradeToRemove);
                         if (gradeToRemove == null) { stillGrades = false; }
                     }
+                    Log.Information($"Suppression des notes liés au {courseToDelete} de {student.GetStudentName()}");
 
-                    // la taille de student.GetStudentGrades() change, donc elle peut pas etre parcouru dans le foreach
-                    // eliminier le code d'en bas
-                    //foreach (Grade grade in student.GetStudentGrades()) 
-                    //{
-                    //    if (grade.GetGradeCourseId() == idCourse)
-                    //    {
-                    //        student.GetStudentGrades().Remove(grade);
-                    //    }
                 }
                 return true;
             }

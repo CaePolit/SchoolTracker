@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -12,29 +14,35 @@ namespace SchoolTracker
     class Student
     {
         public static int numberOfStudents;
+
+        [JsonProperty]
         private int _id { get; set;  }
+
+        [JsonProperty]
         private string _name { get; set; }
+
+        [JsonProperty]
         private string _lastname { get; set; }
+
+        [JsonProperty]
         private DateOnly _birthday { get; set; }
 
+        [JsonProperty]
         private List<Grade> _grades { get; set; }
 
-        //private List<double> _notes { get; set; }
-        //private List<string> _comments { get; set; }
-
-
-        public Student (string name, string lastname, string birthday)
+        public Student (string name, string lastname, DateOnly birthday)
         {
             _id = GenerateStudentId(numberOfStudents);
             numberOfStudents++;
             _name = name;
             _lastname = lastname;
-            _birthday = DateOnly.ParseExact(birthday, "dd/MM/yyyy"); //DateOnly.ParseExact(birthDate, "dd/MM/yyyy");
+            _birthday = birthday; 
             _grades = new List<Grade> ();
             
         }
 
-        // voici les methodes acceseurs
+        // voici les methodes accesseurs
+        // attention aux noms
         public string GetStudentName() { return _name; }
         public string GetStudentLastname() { return _lastname; }
         public DateOnly GetBirthday() { return _birthday; }
@@ -47,19 +55,14 @@ namespace SchoolTracker
             return numberOfStudents + 1;
         }
 
-        //public bool VerifiedStudent(List<Student> students, int id) { return students.Exists(p => p._id == id); }
 
         public bool AddGrade(List<Course> courses, string course , double note, string comment )
         {
-            // utilise la meme filo d'ensous pour faire, sauf que il y a pas besoin de s'saurer s'il existe une note parei. 
-            // par contre iol faut repere dabord l'ekeve et le cours. rappelle toi que la liste de grades, avec la class grade, est
-            // à l'interieur de la class student
 
             int studentId = GetStudentId();
             Course courseToCheck = courses.FirstOrDefault(p => p.GetCourseName() == course);
             if (courseToCheck == null)
             {
-                //DisplayAddGradeError();
                 Console.WriteLine("Le cours à rentrer dans le notes de l'elève n'existe pas");
                 return false;
             }
@@ -85,7 +88,7 @@ namespace SchoolTracker
                 string promedio = CustomRoundWithSuffix(adition / _grades.Count);
                 return promedio;
             } 
-            else { return "0/20"; }
+            else { return "tu n'as pas de note"; }
                                                 
         }
 
@@ -112,16 +115,4 @@ namespace SchoolTracker
         }
     }
 
-
-    // construire une fonction DisplayStudent qui prenne la valeur de ConsultStudent comme argument et retourne toutes les 
-    // infos concernant l'elève sauf l'id. Cette foction/methode peut apartenir à la classe "StudentActions"
-
-
-
-    // Student StudentToAdd = students.FirstOrDefault(p => p._name == name);
-
-
-    
-
-   
 }

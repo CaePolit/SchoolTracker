@@ -1,14 +1,16 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SchoolTracker
 {
-    class StudentAction 
+    internal class StudentAction 
     {
         // voici les options initialisées des menus elèves et cours
         
@@ -23,6 +25,10 @@ namespace SchoolTracker
 
         public List<Student> GetStudentsList() { return _students; }
         public List<Course> GetCoursesList() { return _courses; }
+        public int GetNumberOfStudents()
+            { return _students.Count; }
+        public int GetNumberOfCourses()
+            { return _courses.Count; }
         public void ListStudents() //penser peutetre à diviser les display de la recopilation de donnes
         {
             Console.Clear();
@@ -72,12 +78,13 @@ namespace SchoolTracker
                 name = $"{name}*";
                 lastname = $"{lastname}*";
             }
-            var newStudent = new Student(name, lastname, entry3);
+            var newStudent = new Student(name, lastname, dateValue);
             Console.WriteLine("Voici l'Id unique. Veillez le noter et garder precieusement:");
             Console.WriteLine(newStudent.GetStudentId());
 
             _students.Add(newStudent);
-            
+            DataManager.Save(_students, _courses, GetNumberOfStudents(), GetNumberOfCourses());
+            Log.Information($"Creation d'elève: {name} - {lastname} - {dateValue} - {newStudent.GetStudentId()}");
 
             Console.WriteLine("");
             Console.WriteLine("");
@@ -92,9 +99,20 @@ namespace SchoolTracker
             Console.WriteLine("----------------------------------------------------------------------");
             Console.WriteLine("");
             Console.WriteLine("Rentrer le numero d'identification unique du elève: ");
-            string entryId = Console.ReadLine();
-            int id = Convert.ToInt32(entryId);
-
+            int id;
+            while (true)
+            {
+                //verification d'entier
+                string entryId = Console.ReadLine();
+                bool resultat = int.TryParse(entryId, out id);
+                if (!(resultat))
+                {
+                    Console.WriteLine("format invalide. Veillez rentrer un numero entier.");
+                }
+                else break;
+                
+            }
+            // verification si le id existe dans la liste d'elèves
             bool isStudent = VerifiedStudent(id);
             if (!(isStudent))
             {
@@ -151,13 +169,14 @@ namespace SchoolTracker
             //icic pense à implementer les fontions de try imput
             Console.WriteLine("Rentrer la note: ");
             string noteEntry = Console.ReadLine();
+            //verifier que noteEntry est bel est bien un double avec la methode double.TryParse()
             double note = Convert.ToDouble(noteEntry);
             Console.WriteLine("");
             Console.WriteLine("Rentrer une appréciation (Facultatif): ");
             string comment = Console.ReadLine();
             Console.WriteLine("");
             Console.WriteLine("Recapitulatif");
-            Console.WriteLine("Elève: "+studentTosearch.GetStudentLastname()+" "+studentTosearch.GetStudentName);
+            Console.WriteLine("Elève: "+studentTosearch.GetStudentLastname()+" "+studentTosearch.GetStudentName());
             Console.WriteLine("Cours: "+coursEntry);
             Console.WriteLine("Note: "+ noteEntry+"/20");
             Console.WriteLine("Appréciation: "+comment);
@@ -167,17 +186,19 @@ namespace SchoolTracker
             if (answer.Key == ConsoleKey.Y)
             {
                 studentTosearch.AddGrade(GetCoursesList(), coursEntry, note, comment);
+                DataManager.Save(_students, _courses,GetNumberOfStudents(), GetNumberOfCourses());
+                Log.Information($"Nouvelle note et appréciation pour {studentTosearch.GetStudentLastname()} en {coursEntry}");
             }
             else if (answer.Key == ConsoleKey.N)
             {
                 Console.WriteLine("Registre non souvegardé. ");
-
+                Log.Information("ajout de nouvelle note non reussi");
             }
             else 
             {
                 Console.WriteLine("gros naze ");
             }
-
+            Console.WriteLine("");
             Console.WriteLine("----------------------------------------------------------------------");
             Console.ReadKey();
                         
