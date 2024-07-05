@@ -98,6 +98,7 @@ namespace SchoolTracker
                     Log.Information($"Suppression des notes liés au {courseToDelete} de {student.GetStudentName()}");
 
                 }
+                DataManager.Save(_students, _courses, GetNumberOfStudents(), GetNumberOfCourses());
                 return true;
             }
             else { return false; }

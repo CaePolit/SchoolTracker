@@ -1,11 +1,23 @@
 {
-  "IdCompteurStudent": 0,
-  "IdCompteurCourse": 1,
-  "Students": [],
+  "IdCompteurStudent": 1,
+  "IdCompteurCourse": 2,
+  "Students": [
+    {
+      "_id": 1,
+      "_name": "titi",
+      "_lastname": "Henry",
+      "_birthday": "1982-04-03",
+      "_grades": []
+    }
+  ],
   "Courses": [
     {
       "_id": 2,
       "_name": "coursTest"
+    },
+    {
+      "_id": 3,
+      "_name": "Math"
     }
   ]
 }

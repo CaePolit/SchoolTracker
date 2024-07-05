@@ -55,19 +55,19 @@ class Program
             while (true)
             {
                 //ici on va commencer à creer notre menu principal
-                DisplayPrincipalMenu();
+                Menu.DisplayPrincipalMenu();
                 Log.Information("Display menu principal");
                 var answerPrincipal = Console.ReadKey();
                 Log.Information("Key pressed: {Key}", answerPrincipal.Key);
 
                 if (!(answerPrincipal.Key == ConsoleKey.NumPad1 || answerPrincipal.Key == ConsoleKey.NumPad2))
                 {
-                    DisplayPrincipalMenuError();
+                    Menu.DisplayPrincipalMenuError();
                     Log.Error("message d'error de frappe");
                 }
                 while (answerPrincipal.Key == ConsoleKey.NumPad1) 
                 {
-                    DisplayStudentMenu();
+                    Menu.DisplayStudentMenu();
                     Log.Information("Display menu elèves");
                     StudentAction studentAction = new StudentAction(eleves, cours);
 
@@ -98,7 +98,7 @@ class Program
                             Log.Information("Retour au menu principal");
                             break;
                         default:
-                            DisplayStudentMenuError();
+                            Menu.DisplayStudentMenuError();
                             Log.Error("error de frappe");
                             break;
                     }
@@ -107,7 +107,7 @@ class Program
                 }
                 while (answerPrincipal.Key == ConsoleKey.NumPad2)
                 {
-                    DisplayCoursesMenu();
+                    Menu.DisplayCoursesMenu();
                     Log.Information("Display menu cours");
                     CourseAction courseAction = new CourseAction(eleves, cours);
                     var answerCourse = Console.ReadKey();
@@ -133,7 +133,7 @@ class Program
                             Log.Information("Retour au menu principal");
                             break;
                         default:
-                            DisplayCoursesMenuError();
+                            Menu.DisplayCoursesMenuError();
                             Log.Error("error de frappe");
                             break;
                     }
@@ -145,120 +145,6 @@ class Program
             
         }
         
-    }
-            
-    public static void DisplayPrincipalMenu()
-    {
-        Console.Clear();
-        Console.WriteLine("----------------------------------------------------------------------");
-        Console.WriteLine("Menu principal");
-        Console.WriteLine("");
-        Console.WriteLine("Choisissez:");
-        Console.WriteLine("");
-        Console.WriteLine("1) Elèves");
-        Console.WriteLine("");
-        Console.WriteLine("2) Cours");
-        Console.WriteLine("");
-        Console.WriteLine("");
-        Console.WriteLine("1 ou 2?");
-        Console.WriteLine("----------------------------------------------------------------------");
-        Console.WriteLine("");
-    }
-
-    public static void DisplayPrincipalMenuError()
-    {
-        Console.Clear();
-        while (true)
-        {
-            //
-            Console.WriteLine("----------------------------------------------------------------------");
-            Console.WriteLine("");
-            Console.WriteLine("Error de saisie! Veillez rentrer comme commenade de ligne, soit 1, soit 2");
-            Console.WriteLine("");
-            Console.WriteLine("Tapez Enter pour continuer");
-            Console.WriteLine("");
-            Console.WriteLine("----------------------------------------------------------------------");
-            var answer = Console.ReadKey();
-            if (answer.Key == ConsoleKey.Enter) { break; }
-            Console.WriteLine("");
-        }
-    }
-
-    public static void DisplayStudentMenu()
-    {
-        Console.Clear();
-        Console.WriteLine("----------------------------------------------------------------------");
-        Console.WriteLine("");
-        Console.WriteLine("Menu Elèves");
-        Console.WriteLine("");
-        Console.WriteLine("Choisissez une action:");
-        Console.WriteLine("");
-        Console.WriteLine("1) Lister les elèves");
-        Console.WriteLine("2) Créer un nouveau elève");
-        Console.WriteLine("3) Consulter un elève existant");
-        Console.WriteLine("4) Ajouter une note et une appréciation pour un cours sur un élève existant");
-        Console.WriteLine("5) Revenir au menu principal");
-        Console.WriteLine("");
-        Console.WriteLine(" tapez soit '1', '2', '3', '4' ou '5'");
-        Console.WriteLine("");
-        Console.WriteLine("----------------------------------------------------------------------");
-        Console.WriteLine("");
-    }
-
-    public static void DisplayStudentMenuError()
-    {
-        Console.Clear();
-        while (true)
-        {
-            Console.WriteLine("----------------------------------------------------------------------");
-            Console.WriteLine("");
-            Console.WriteLine("Error de saisie! Veillez rentrer soit '1', '2', '3', '4' ou '5'");
-            Console.WriteLine("");
-            Console.WriteLine("Tapez Enter pour continuer");
-            Console.WriteLine("");
-            Console.WriteLine("----------------------------------------------------------------------");
-            var answer = Console.ReadKey();
-            if (answer.Key == ConsoleKey.Enter) { break; }
-            Console.WriteLine("");
-        }
-    }  
-
-    public static void DisplayCoursesMenu()
-    {
-        Console.Clear();
-        Console.WriteLine("----------------------------------------------------------------------");
-        Console.WriteLine("");
-        Console.WriteLine("Menu Cours");
-        Console.WriteLine("");
-        Console.WriteLine("Choisissez une action:");
-        Console.WriteLine("");
-        Console.WriteLine("1) Lister les cours existants");
-        Console.WriteLine("2) Ajouter un nouveau cours au programme");
-        Console.WriteLine("3) Supprimer un cours par son identifiant");
-        Console.WriteLine("4) Revenir au menu principal");
-        Console.WriteLine("");
-        Console.WriteLine(" tapez soit '1', '2', '3' ou '4'");
-        Console.WriteLine("----------------------------------------------------------------------");
-        Console.WriteLine("");
-    }
-
-    public static void DisplayCoursesMenuError()
-    {
-        Console.Clear();
-        while (true)
-        {
-            Console.WriteLine("----------------------------------------------------------------------");
-            Console.WriteLine("");
-            Console.WriteLine("Error de saisie! Veillez rentrer tapez soit '1', '2', '3' ou '4'");
-            Console.WriteLine("");
-            Console.WriteLine("Tapez Enter pour continuer");
-            Console.WriteLine("");
-            Console.WriteLine("----------------------------------------------------------------------");
-            var answer = Console.ReadKey();
-            if (answer.Key == ConsoleKey.Enter) { break; }
-            Console.WriteLine("");
-        }
-        
-    }
-
+    }   
+    
 }

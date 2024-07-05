@@ -58,22 +58,18 @@ namespace SchoolTracker
 
         internal bool AddGrade(List<Course> courses, string course , double note, string comment )
         {
-
             int studentId = GetStudentId();
             Course courseToCheck = courses.FirstOrDefault(p => p.GetCourseName() == course);
             if (courseToCheck == null)
             {
-                Console.WriteLine("Le cours à rentrer dans le notes de l'elève n'existe pas");
+                Console.WriteLine("Le cours à rentrer dans le notes de l'élève n'existe pas");
                 return false;
             }
             int courseId = courseToCheck.GetCourseId();
             Grade gradeToAdd = new Grade(studentId, courseId, note, comment);
             _grades.Add(gradeToAdd);
-            
             return true;
         }
-
-        
 
         public string CalculateStudentMean()
         {
