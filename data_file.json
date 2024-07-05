@@ -1,60 +1,11 @@
 {
-  "IdCompteurStudent": 2,
-  "IdCompteurCourse": 3,
-  "Students": [
-    {
-      "_id": 1,
-      "_name": "Juanito",
-      "_lastname": "Alimagna",
-      "_birthday": "1964-05-10",
-      "_grades": [
-        {
-          "_studentId": 1,
-          "_courseId": 1,
-          "_note": 15.0,
-          "_comment": "ç'est pas mal"
-        },
-        {
-          "_studentId": 1,
-          "_courseId": 2,
-          "_note": 8.0,
-          "_comment": "va falloir se sécouer Juanito"
-        }
-      ]
-    },
-    {
-      "_id": 2,
-      "_name": "Jimmy",
-      "_lastname": "Hendrix",
-      "_birthday": "1942-11-27",
-      "_grades": [
-        {
-          "_studentId": 2,
-          "_courseId": 1,
-          "_note": 4.0,
-          "_comment": "à moment donné faut arreter avec les meches tout les 4 matin"
-        },
-        {
-          "_studentId": 2,
-          "_courseId": 3,
-          "_note": 18.0,
-          "_comment": "t'est illuminé mon gars!!"
-        }
-      ]
-    }
-  ],
+  "IdCompteurStudent": 0,
+  "IdCompteurCourse": 1,
+  "Students": [],
   "Courses": [
     {
-      "_id": 1,
-      "_name": "Math"
-    },
-    {
       "_id": 2,
-      "_name": "Anglais"
-    },
-    {
-      "_id": 3,
-      "_name": "Biologie"
+      "_name": "coursTest"
     }
   ]
 }

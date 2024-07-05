@@ -9,18 +9,17 @@ using System.Xml.Linq;
 
 namespace SchoolTracker
 {
-    internal class CourseAction
+    public class CourseAction
     {
-        
         private List<Student> _students { get; set; }
         private List<Course> _courses { get; set; }
-        public CourseAction(List<Student> students, List<Course> courses)
+        internal CourseAction(List<Student> students, List<Course> courses)
         {
             _students = students;
             _courses = courses;
         }
-        public List<Course> GetCoursesList() { return _courses; }
-        public List<Student> GetStudentsList() { return _students; }
+        internal List<Course> GetCoursesList() { return _courses; }
+        internal List<Student> GetStudentsList() { return _students; }
         public int GetNumberOfStudents()
             { return _students.Count; }
         public int GetNumberOfCourses()

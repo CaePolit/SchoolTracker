@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SchoolTracker
 {
-    class Course
+    public class Course
     {
         public static int numberOfCourses;
 

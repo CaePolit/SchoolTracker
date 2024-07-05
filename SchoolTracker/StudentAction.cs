@@ -10,7 +10,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SchoolTracker
 {
-    internal class StudentAction 
+    class StudentAction //faudra la changer a public et ses methodes à internal
     {
         // voici les options initialisées des menus elèves et cours
         

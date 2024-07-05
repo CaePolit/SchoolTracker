@@ -11,7 +11,7 @@ using System.Xml.Linq;
 
 namespace SchoolTracker
 {
-    class Student
+    public class Student
     {
         public static int numberOfStudents;
 
@@ -48,7 +48,7 @@ namespace SchoolTracker
         public DateOnly GetBirthday() { return _birthday; }
         public int GetStudentId() { return _id; }
 
-        public List<Grade> GetStudentGrades() { return _grades; }
+        internal List<Grade> GetStudentGrades() { return _grades; }
 
         public int GenerateStudentId(int numberOfStudents) //fonction génératrice de Id, elle peut etre incluse dans la class "StudentActions"
         {
@@ -56,7 +56,7 @@ namespace SchoolTracker
         }
 
 
-        public bool AddGrade(List<Course> courses, string course , double note, string comment )
+        internal bool AddGrade(List<Course> courses, string course , double note, string comment )
         {
 
             int studentId = GetStudentId();

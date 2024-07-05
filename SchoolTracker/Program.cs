@@ -33,7 +33,7 @@ class Program
             .WriteTo.File(Path.Combine(logDirectory, "log.txt"), rollingInterval: RollingInterval.Day) 
             .CreateLogger();
 
-        //ici en dehors de la boucle on doit avoir acces au ficher JSONb
+        //ici en dehors de la boucle on doit avoir acces au ficher JSON
         //pour charger nos donnes
         //string folderPath = @"C:\Users\Carlos\Desktop\WCS\projet_console\SchoolTracker";
         //string fileName = "data_file.json";
